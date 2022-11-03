@@ -69,6 +69,22 @@ resource "google_project_iam_member" "custom_service_account" {
   role     = "roles/composer.admin"
 }
 
+resource "google_project_iam_member" "custom_service_account" {
+  provider = google-beta
+  project  = var.project
+  member   = format("serviceAccount:%s", google_service_account.custom_service_account.email)
+  // Role for Public IP environments
+  role     = "roles/composer.worker"
+}
+
+resource "google_project_iam_member" "custom_service_account" {
+  provider = google-beta
+  project  = var.project
+  member   = format("serviceAccount:%s", google_service_account.custom_service_account.email)
+  // Role for Public IP environments
+  role     = "roles/composer.ServiceAgentV2Ext"
+}
+
 resource "google_service_account_iam_member" "custom_service_account" {
   provider = google-beta
   service_account_id = google_service_account.custom_service_account.name
